@@ -7,8 +7,8 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ./docker/targets.json:/opt/sh/prometheus/pushgateway.json
-      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./conf/targets.json:/opt/sh/prometheus/pushgateway.json
+      - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml
 
   pushgateway:
     image: prom/pushgateway
@@ -26,7 +26,7 @@ services:
     image: grafana/grafana
     container_name: grafana
     ports:
-      - 3000:3000
+      - 9000:3000
     volumes:
-      - ./docker/volumes/grafana:/var/lib/grafana
-      - ./docker/grafana.ini:/etc/grafana/grafana.ini
+      - ./volumes/grafana:/var/lib/grafana
+      - ./conf/grafana.ini:/etc/grafana/grafana.ini

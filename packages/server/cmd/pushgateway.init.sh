@@ -1,8 +1,6 @@
-echo "some_metric 3.14" | curl --data-binary @- http://localhost:9091/metrics/job/some_job
-cat <<EOF | curl --data-binary @- http://pushgateway.example.org:9091/metrics/job/some_job/instance/some_instance
-# TYPE some_metric counter
-some_metric{label="val1"} 42
-# TYPE another_metric gauge
-# HELP another_metric Just an example.
-another_metric 2398.283
-EOF
+source ./color.sh
+
+pushgateway_addr=$1
+
+echo "some_metric 3.14" | curl --data-binary @- $pushgateway_addr/metrics/job/some_job
+white init pushgateway $(green $pushgateway_addr)

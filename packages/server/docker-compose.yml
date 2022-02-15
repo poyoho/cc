@@ -10,18 +10,6 @@ services:
       - ./conf/targets.json:/opt/sh/prometheus/pushgateway.json
       - ./conf/prometheus.yml:/etc/prometheus/prometheus.yml
 
-  pushgateway:
-    image: prom/pushgateway
-    container_name: pushgateway1
-    ports:
-      - 9091:9091
-
-  pushgateway2:
-    image: prom/pushgateway
-    container_name: pushgateway2
-    ports:
-      - 9092:9091
-
   grafana:
     image: grafana/grafana
     container_name: grafana

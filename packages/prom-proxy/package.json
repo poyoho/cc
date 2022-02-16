@@ -7,13 +7,14 @@
     "dev": "esno ./src/cli.ts run"
   },
   "dependencies": {
+    "express-prom-bundle": "^6.4.1",
     "koa": "^2.13.4",
     "koa-connect": "^2.1.0",
-    "express-prom-bundle": "^6.4.1",
     "prom-client": "^14.0.1"
   },
   "devDependencies": {
     "@types/koa": "^2.13.4",
-    "cac": "^6.7.12"
+    "cac": "^6.7.12",
+    "picocolors": "^1.0.0"
   }
 }

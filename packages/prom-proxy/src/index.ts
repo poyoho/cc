@@ -1,7 +1,9 @@
 import koa from 'koa'
+import color from 'picocolors'
 import prometheusMiddleware from './middleware/prometheus'
-import prometheusProxyMiddleware from './middleware/prometheus'
-import type { MetricMateData } from './integrations/prom-client'
+import prometheusProxyMiddleware from './middleware/prometheusProxy'
+import type { MetriceConstructorOptions } from './integrations/prom-client'
+import type { ecode } from './constants'
 
 export type Middleware = koa.Middleware<koa.DefaultState, koa.DefaultContext>
 
@@ -13,13 +15,13 @@ export interface ApiConfig {
 export interface UserConfig {
   api?: ApiConfig
 
-  metric?: MetricMateData[]
+  metric?: MetriceConstructorOptions[]
 }
 
 export interface ResolvedConfig {
   api: ApiConfig
 
-  metric: Map<string, MetricMateData>
+  metric: Map<string, MetriceConstructorOptions>
 }
 
 export interface CCServer {
@@ -62,11 +64,7 @@ function enhancementServer(server: CCServer) {
 
   app.context.server = server
   app.context.collect = new Map()
-  app.context.json = async function (
-    ecode: koa.ecode,
-    data: any,
-    next: koa.Next
-  ) {
+  app.context.json = async function (ecode: ecode, data: any, next: koa.Next) {
     this.body = {
       code: ecode,
       meseage: '',
@@ -81,12 +79,13 @@ export function createCCServer(inlineConfig?: UserConfig) {
   const config = resolveConfig(inlineConfig)
 
   const server: CCServer = {
+    app,
     config,
 
-    app,
-
     listen(port?: number): CCServer {
-      app.listen(port)
+      app.listen(port || config.api.port, () => {
+        console.log(color.green(`http://${config.api.host}:${config.api.port}`))
+      })
 
       return server
     }
@@ -95,7 +94,7 @@ export function createCCServer(inlineConfig?: UserConfig) {
   enhancementServer(server)
 
   app.use(prometheusMiddleware())
-  app.use(prometheusProxyMiddleware())
+  app.use(prometheusProxyMiddleware(server))
 
   return server
 }

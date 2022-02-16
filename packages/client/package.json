@@ -2,5 +2,12 @@
   "name": "@cc/client",
   "author": "poyoho",
   "license": "MIT",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "peerDependencies": {
+    "axios": "^0.26.0"
+  },
+  "devDependencies": {
+    "axios": "^0.26.0",
+    "@types/axios": "^0.14.0"
+  }
 }

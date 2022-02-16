@@ -25,7 +25,8 @@ async function run(options: CliOptions) {
       name: 'performance',
       help: 'client load time',
       type: 'histogram',
-      labelNames: ['page', 'channel']
+      labelNames: ['page', 'channel'],
+      buckets: [1, 2, 3, 4, 5]
     }
   ]
 

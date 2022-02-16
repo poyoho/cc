@@ -1,12 +1,9 @@
 import type { CCServer } from '../src'
 import type koa from 'koa'
 import type { TypedCollector } from '../src/integrations/prom-client'
+import type { ecode } from '../src/constants'
 
 declare module 'koa' {
-  enum ecode {
-    OK = 0
-  }
-
   interface DefaultState {}
 
   interface DefaultContext {
@@ -23,6 +20,6 @@ declare module 'koa' {
     /**
      * json return
      */
-    json: (ecode: ecode, data: any, next: koa.Next) => void
+    json(ecode: ecode, data: any, next: koa.Next): void
   }
 }
